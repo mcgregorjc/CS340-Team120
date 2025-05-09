@@ -18,17 +18,17 @@ app.get('/', async function (req, res) {
     try {
         
         // Define our queries
-        const query1 = 'DROP TABLE IF EXISTS diagnostic;';
-        const query2 = 'CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);';
-        const query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL and Node is working for brennawi!");'; // Replace with your ONID
-        const query4 = 'SELECT * FROM diagnostic;';
+        //const query1 = 'DROP TABLE IF EXISTS diagnostic;';
+        //const query2 = 'CREATE TABLE diagnostic(id INT PRIMARY KEY AUTO_INCREMENT, text VARCHAR(255) NOT NULL);';
+        //const query3 = 'INSERT INTO diagnostic (text) VALUES ("MySQL and Node is working for brennawi!");'; // Replace with your ONID
+        //const query4 = 'SELECT * FROM diagnostic;';
         
         // Execute each query synchronously (await).
         // We want each query to finish before the next one starts.
-        await db.query(query1);
-        await db.query(query2);
-        await db.query(query3);
-        const [rows] = await db.query(query4); // Store the results
+        //await db.query(query1);
+        //await db.query(query2);
+        //await db.query(query3);
+        //const [rows] = await db.query(query4); // Store the results
         
         // Send the results to the browser
         const base = "<h1>MySQL Results:</h1>";
