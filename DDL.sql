@@ -11,6 +11,15 @@
 SET FOREIGN_KEY_CHECKS=0;
 SET AUTOCOMMIT = 0;
 
+Drop TABLE IF EXISTS Constellations;
+Drop TABLE IF EXISTS Stars;
+Drop TABLE IF EXISTS Shows;
+Drop TABLE IF EXISTS Customers;
+Drop TABLE IF EXISTS Show_Stars;
+Drop TABLE IF EXISTS Show_Constellations;
+Drop TABLE IF EXISTS Show_Customers;
+
+
 --
 -- Entity tables: Constellations, Stars, Shows, Customers
 --
