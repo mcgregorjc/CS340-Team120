@@ -178,6 +178,113 @@ app.get('/Show_Customers', async function (req, res) {
     }
 });
 
+// Reset ROUTES
+app.post('/Reset_database', async function (req, res) {
+    try {
+       
+        const query1 = `CALL sp_ResetDatabase`;
+    } 
+    catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }});
+
+// CREATE ROUTES
+app.post('/Customers/create', async function (req, res) {
+    try {
+        // Parse frontend form information
+        let data = req.body;
+
+
+        // Create and execute our queries
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_CreateCustomer(?, ?, ?, @new_id);`;
+
+        // Store ID of last inserted row
+        const [[[rows]]] = await db.query(query1, [
+            data.create_customer_name,
+            data.create_customer_phone_number,
+            data.create_customer_email,
+        ]);
+
+        console.log(`CREATE Customer. ID: ${rows.new_id} ` +
+            `Name: ${data.create_customer_name}`
+        );
+
+        // Redirect the user to the updated webpage
+        res.redirect('/Customers');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+// UPDATE ROUTES
+app.post('/Customers/update', async function (req, res) {
+    try {
+        // Parse frontend form information
+        const data = req.body;
+
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = 'CALL sp_UpdateCustomer(?, ?, ?, ?);';
+        const query2 = 'SELECT name FROM Customers WHERE customer_id = ?;';
+        await db.query(query1, [
+            data.update_customer_id,
+            data.update_customer_name,
+            data.update_customer_phone_number,
+            data.update_customer_email,
+        ]);
+        const [[row]] = await db.query(query2, [data.update_customer_id]);
+
+        console.log(`UPDATE Customer. ID: ${data.update_customer_id} ` +
+            `Name: ${row.name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/Customers');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
+// DELETE ROUTES
+app.post('/Customers/delete', async function (req, res) {
+    try {
+        // Parse frontend form information
+        let data = req.body;
+
+        // Create and execute our query
+        // Using parameterized queries (Prevents SQL injection attacks)
+        const query1 = `CALL sp_DeleteCustomer(?);`;
+        await db.query(query1, [data.delete_customer_id]);
+
+        console.log(`DELETE Customer. ID: ${data.delete_customer_id} ` +
+            `Name: ${data.delete_customer_name}`
+        );
+
+        // Redirect the user to the updated webpage data
+        res.redirect('/Customers');
+    } catch (error) {
+        console.error('Error executing queries:', error);
+        // Send a generic error message to the browser
+        res.status(500).send(
+            'An error occurred while executing the database queries.'
+        );
+    }
+});
+
 
 // ########################################
 // ########## LISTENER
